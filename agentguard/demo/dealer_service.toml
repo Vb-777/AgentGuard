@@ -1,0 +1,43 @@
+# AgentGuard policy for a two-wheeler dealer-service assistant.
+# Every tool the agent can reach is declared here; anything else is denied.
+
+[agent]
+name = "dealer-service-assistant"
+
+[tools.lookup_orders]
+risk = "low"
+allowed_roles = ["customer", "dealer_staff"]
+owner_arg = "customer_id"
+cross_scope_roles = ["dealer_staff"]
+
+[tools.check_warranty]
+risk = "low"
+allowed_roles = ["customer", "dealer_staff"]
+owner_arg = "customer_id"
+cross_scope_roles = ["dealer_staff"]
+
+[tools.submit_warranty_claim]
+risk = "medium"
+allowed_roles = ["customer", "dealer_staff"]
+owner_arg = "customer_id"
+cross_scope_roles = ["dealer_staff"]
+max_calls_per_session = 3
+
+[tools.issue_refund]
+risk = "high"
+allowed_roles = ["customer", "dealer_staff"]
+owner_arg = "customer_id"
+amount_arg = "amount_inr"
+max_amount = 50000
+requires_approval = true
+approver_roles = ["service_manager"]
+
+[tools.update_inventory]
+risk = "high"
+allowed_roles = ["dealer_staff"]
+requires_approval = true
+approver_roles = ["inventory_manager", "admin"]
+
+[tools.send_customer_message]
+risk = "medium"
+allowed_roles = ["dealer_staff"]
